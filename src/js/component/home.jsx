@@ -7,9 +7,11 @@ import { Notes } from "./lista.jsx";
 const Home = () => {
 	return (
 		<div className="fondo">
-			<h1>todos</h1>
-			<div className="notas">
-				<Notes />
+			<div className="fondo-de-cartas">
+				<h1 className="titulo">todos</h1>
+				<div className="notas">
+					<Notes />
+				</div>
 			</div>
 		</div>
 	);

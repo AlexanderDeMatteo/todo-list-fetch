@@ -3,3 +3,41 @@
     justify-content: space-between;
     height: auto;
 }
+.row{
+    width: 440px;
+    padding-left: 10px;
+}
+#lista{
+   
+}
+/* .contador{
+    justify-content: center;
+    width: 400px;
+    text-align: center;
+} */
+.notas{
+    justify-content: center;
+    width: 400px;
+    text-align: center;
+    margin: auto;
+    background-color: aliceblue;
+}
+#input_1{
+    width: 420px;
+    
+}
+.list-body{
+    display: flex;
+    background-color: rgb(4, 219, 235);
+        justify-content: center;
+        width: 420px;
+        text-align: center;
+}
+.titulo{
+    justify-content: center;
+    text-align: center;
+}
+.fondo-de-cartas{
+    background-color:aliceblue;
+    height: 800px;
+}
