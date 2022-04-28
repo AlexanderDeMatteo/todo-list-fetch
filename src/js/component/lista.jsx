@@ -5,7 +5,7 @@ export const Notes = () => {
 	const [todoList, setTodolist] = useState([]);
 	const [tareasPendientes, settareasPendientes] = useState("");
 	const handleList = (e) => {
-		if (e.key === "Enter") {
+		if (e.key === "Enter" && addTodolist != "") {
 			setTodolist([...todoList, addTodolist]);
 			setAddTodolist("");
 			if (tareasPendientes == "") {
@@ -53,7 +53,11 @@ export const Notes = () => {
 						);
 					})}
 				</div>
-				<div className="contador">{tareasPendientes}</div>
+
+				<div className="contador">
+					<>{tareasPendientes != "" ? "tareas por realizar" : ""}</>
+					{tareasPendientes}
+				</div>
 			</div>
 		</div>
 	);
