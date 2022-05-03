@@ -1,58 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+let apiUrl = "https://assets.breatheco.de/apis/fake/todos/user/alexander";
 
 export const Notes = () => {
 	const [addTodolist, setAddTodolist] = useState("");
 	const [todoList, setTodolist] = useState([]);
 	const [tareasPendientes, settareasPendientes] = useState("");
 
-	const handleList = (e) => {
+	const handleList = async (e) => {
 		if (e.key === "Enter" && addTodolist != "") {
-			if (tareasPendientes == "") {
-				settareasPendientes(1);
-			} else {
-				settareasPendientes(tareasPendientes + 1);
+			let newTask = [...todoList, { label: e.target.value, done: false }];
+			const response = await fetch(apiUrl, {
+				method: "PUT",
+				body: JSON.stringify(newTask),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			if (response.ok) {
+				getTodoList();
 			}
-			setTodolist([...todoList, addTodolist]);
-			setAddTodolist("");
 		}
 	};
 
 	const deleteTask = (position) => {
 		let newTasks = todoList.filter((task, index) => index != position);
 		setTodolist(newTasks);
-		settareasPendientes(tareasPendientes - 1);
-		if (tareasPendientes - 1 == 0) {
-			settareasPendientes("");
-		}
 	};
 
-	const deleteAll = (position) => {
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/alesanchezr", {
-			method: "DELETE",
+	//POST - create User
+	const createUser = async () => {
+		const response = await fetch(apiUrl, {
+			method: "POST",
 			body: JSON.stringify([]),
 			headers: {
 				"Content-Type": "application/json",
 			},
-		})
-			.then((resp) => {
-				console.log(resp.ok); // will be true if the response is successfull
-				console.log(resp.status); // the status code = 200 or code = 400 etc.
-				if (resp.status == 404) {
-					setTodolist([]);
-				}
-				console.log(resp.text()); // will try return the exact result as string
-				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
-			})
-			.then((data) => {
-				//here is were your code should start after the fetch finishes
-				console.log(data); //this will print on the console the exact object received from the server
-			})
-			.catch((error) => {
-				//error handling
-				console.log("error");
-				console.log(error);
-			});
+		});
+		if (response.ok) {
+			getTodoList();
+		}
 	};
+
+	// GET - get Todolist from User
+	const getTodoList = async () => {
+		const response = await fetch(apiUrl);
+		if (response.status == 404) {
+			createUser();
+		}
+		if (response.ok) {
+			const body = await response.json();
+			console.log(body);
+			setTodolist(body);
+		}
+	};
+	// DELETE - deletes user with all tasks
+	// const deleteAll = async () => {
+	// 	const response = await fetch(apiUrl, {
+	// 		method: "DELETE",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 	});
+	// 	if (response.ok) {
+	// 		const body = await response.json();
+	// 		console.log(body);
+	// 	}
+	// };
+
+	useEffect(() => {
+		getTodoList();
+	}, []);
 
 	return (
 		<div className="list-body">
