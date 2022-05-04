@@ -17,6 +17,7 @@ export const Notes = () => {
 					"Content-Type": "application/json",
 				},
 			});
+			setAddTodolist("");
 			if (response.ok) {
 				getTodoList();
 			}
@@ -55,18 +56,19 @@ export const Notes = () => {
 		}
 	};
 	// DELETE - deletes user with all tasks
-	// const deleteAll = async () => {
-	// 	const response = await fetch(apiUrl, {
-	// 		method: "DELETE",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 	});
-	// 	if (response.ok) {
-	// 		const body = await response.json();
-	// 		console.log(body);
-	// 	}
-	// };
+	const deleteAll = async () => {
+		const response = await fetch(apiUrl, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		if (response.ok) {
+			const body = await response.json();
+			console.log(body);
+			createUser(body);
+		}
+	};
 
 	useEffect(() => {
 		getTodoList();
